@@ -74,3 +74,26 @@ class CTABlock(blocks.StructBlock):
         template = "streams/cta_block.html"
         icon = "placeholer"
         label = "Call to Action"
+
+class LinkStructValue(blocks.StructValue):
+    # Additional logic for urls
+
+    def url(self):
+        button_page = self.get("button_page")
+        button_url = self.get("button_url")
+        if button_page:
+            return button_page.url
+        elif button_url:
+            return button_url
+        return None
+
+class ButtonBlock(blocks.StructBlock):
+    """ An external or internel URL """
+    button_page = blocks.PageChooserBlock(required=False, help_text="If selected, this url will be used first")
+    button_url = blocks.URLBlock(required=False, help_text="If added, this url will be used secondary")
+
+    class Meta:
+        template = "streams/button_block.html"
+        icon = "placeholer"
+        label = "Single Button"
+        value_class = LinkStructValue
