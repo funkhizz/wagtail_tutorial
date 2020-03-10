@@ -5,7 +5,8 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from streams import blocks
-
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from django.shortcuts import render
 
 class HomePageCarouselImages(Orderable):
     # 5 Images carousel
@@ -23,7 +24,7 @@ class HomePageCarouselImages(Orderable):
     ]
 
 
-class HomePage(Page):
+class HomePage(RoutablePageMixin, Page):
     # Home page model
 
     templates = "home/home_page.html"
@@ -65,5 +66,10 @@ class HomePage(Page):
             InlinePanel("carousel_images", max_num=5, min_num=1, label="Image"),
         ], heading="Carousel Images"),
         StreamFieldPanel("content"),
-
     ]
+
+    @route(r'^subscribe/$')
+    def the_subscribe_page(self, request, *args, **kwargs):
+        context = self.get_context(request, *args, **kwargs)
+        context["test"] = "Hello World 123"
+        return render(request, "home/subscribe.html", context)

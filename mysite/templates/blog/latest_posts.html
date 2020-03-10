@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
-{% load wagtailimages_tags wagtailroutablepage_tags %}
+{% load wagtailimages_tags %}
 
 {% block content %}
 
-<a href="{% routablepageurl page 'latest_posts' %}">View latest posts only</a>
-
 <div class="container">
-    {% for post in posts %}
+    <h1>Latest posts</h1>
+    {% for post in latest_posts %}
         <div class="row">
         <div class="col-sm-3">
             {% image post.blog_image fill-250x250 as blog_img %}
