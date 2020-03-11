@@ -58,6 +58,31 @@ class BlogAuthor(models.Model):
 
 register_snippet(BlogAuthor)
 
+class BlogCategory(models.Model):
+    """Blog Category for a snippet"""
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(
+        verbose_name="slug",
+        allow_unicode=True,
+        max_length=255,
+        help_text="A slug to identify posts by this category"
+    )
+
+    class Meta:
+        verbose_name = "Blog Category"
+        verbose_name_plural = "Blog Categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("slug")
+    ]
+
+register_snippet(BlogCategory)
+
 class BlogListingPage(RoutablePageMixin, Page):
     # Listing page lists all the Blog Detail Pages
 
